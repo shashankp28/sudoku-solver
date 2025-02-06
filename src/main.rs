@@ -12,13 +12,13 @@ fn main() {
         [0, 0, 6, 0, 4, 0, 0, 2, 0],
     ];
 
-    let sudoku = Sudoku::new(board);
+    let mut sudoku = Sudoku::new(board);
     sudoku.print_board();
-
-    println!("Row: {:?}", sudoku.row);
-    println!("Column: {:?}", sudoku.col);
-    println!("Block: {:?}", sudoku.block);
-    println!("Row Remaining: {:?}", sudoku.row_remaining);
-    println!("Column Remaining: {:?}", sudoku.col_remaining);
-    println!("Block Remaining: {:?}", sudoku.block_remaining);
+    let solved = sudoku.solve();
+    if solved {
+        println!("Board is solved!\n");
+    } else {
+        println!("Board could not be solved\n");
+    }
+    sudoku.print_board();
 }
