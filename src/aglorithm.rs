@@ -184,6 +184,33 @@ impl Sudoku {
         return found;
     }
 
+    pub fn solve_rec(&mut self) -> bool {
+        if self.solved() {
+            return true;
+        }
+        let mut solved = false;
+        for x in 0..9 {
+            for y in 0..9 {
+                for num in 0..10 {
+                    if self.row_remaining[x].contains(&num) {
+                        let added = self.add(x, y, num, false);
+                        if added {
+                            solved = self.solve_rec();
+                            if solved {
+                                break;
+                            }
+                            self.remove(x, y, false);
+                        }
+                    }
+                }
+            }
+            if solved {
+                break;
+            }
+        }
+        return solved;
+    }
+
     pub fn solve(&mut self) -> bool {
         let mut found = true;
         while found && !self.solved() {
@@ -197,7 +224,6 @@ impl Sudoku {
             }
             self.print_board();
         }
-
-        return self.solved();
+        return self.solve_rec();
     }
 }
